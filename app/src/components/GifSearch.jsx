@@ -8,23 +8,18 @@ TODO:
 
 import { useState } from "react"
 
-function GifSearch() {
-    const [input, setInput] = useState("")
+function GifSearch({setSearchTerm}) {
+    const [query, setQuery] = useState("")
 
-    const onInputChange = (e) => {
-        setInput(e.target.value)
+    const formSubmit = (e) => {
+        e.preventDefault();
+        setSearchTerm(query);
     }
 
-        const onFormSubmit = (e) => {
-            e.preventDefault()
-            props.setSearchTerm(input)
-            setInput("")
-        }
-
     return (
-        <form onSubmit={onFormSubmit}>
+        <form onSubmit={formSubmit}>
             <label htmlFor="searchInput">Enter a Search Term </label>
-            <input type="text" className="form-control" id="searchInput" value={input} onChange={onInputChange} />
+            <input type="text" className="form-control" id="searchInput" value={query} onChange={(e) => setQuery(e.target.value)} />
             <button type="submit" className="btn btn-success">Search</button>
         </form>
     )
