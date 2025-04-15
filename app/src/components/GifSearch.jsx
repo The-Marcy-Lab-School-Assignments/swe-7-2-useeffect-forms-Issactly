@@ -6,11 +6,20 @@ TODO:
 - Handle form submissions by setting a searchTerm state value that can be shared with the GifContainer component
 */
 
-function GifSearch() {
+import { useState } from "react"
+
+function GifSearch({setSearchTerm}) {
+    const [query, setQuery] = useState("")
+
+    const formSubmit = (e) => {
+        e.preventDefault();
+        setSearchTerm(query);
+    }
+
     return (
-        <form>
+        <form onSubmit={formSubmit}>
             <label htmlFor="searchInput">Enter a Search Term </label>
-            <input type="text" className="form-control" id="searchInput" />
+            <input type="text" className="form-control" id="searchInput" value={query} onChange={(e) => setQuery(e.target.value)} />
             <button type="submit" className="btn btn-success">Search</button>
         </form>
     )

@@ -8,13 +8,36 @@ TODO:
 - Bonus: if at any point an error is returned, render the default gifs again.
 */
 
+import { useState } from 'react';
+import { useEffect } from 'react';
 import defaultGifs from '../gifs.json';
 import { getGifsBySearch, getTrendingGifs } from '../adapters/giphyAdapters';
 
 const GifContainer = () => {
+    const [gifs, setGifs] = useState(defaultGifs)
+
+    useEffect(() => {
+
+        const fetchTrending =  async () => {
+        const [data, error] = await getTrendingGifs();
+        if (data) {
+            setGifs(data)
+        } else {
+            console.error("didn't fetch trend", error)
+        }
+    }
+        fetchTrending();
+    }, [])
+    
     return (
         <ul>
-
+            {gifs.map((gif) => {
+                return (
+                    <li key={gif.id}>
+                    <img src={gif.images.original.url} alt={gif.title} title={gif.title} /* I just like adding titles lol */ />
+                    </li>
+                )
+            })}
         </ul>
     )
 }
